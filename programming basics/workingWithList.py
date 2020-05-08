@@ -29,6 +29,31 @@ squares = []
 for value in range(1, 6):
     squares.append(value**2)
 print(squares)
-# list comprehensions
+# list comprehensions, concisa ma poco legibile
 squares2 = [value**2 for value in range(1, 6)]
 print(squares2)
+
+# in python è possibile lavorare con alcune parti di una lista
+print("\n")
+print(squares2[2:4])
+print(squares2[:4])
+print(squares2[3:])
+
+
+num = ["1", "2", "3"]
+num2 = num[:]
+num.append("4")
+num2.append("5")
+print(num)
+print(num2)
+
+print("\n*******************tuple*****************************\n")
+# definzione e utilizzo delle tuple
+# da notare la inizializzazione con parentesi tonde, invece di quelle quadrate (array)
+dimensioni = (100, 20)
+print(dimensioni[0])
+print(dimensioni[1])
+# dimensioni[0] = 345 ->errore, è impossibile modificare il contenuto di una tupla, è possibile però fare la dichiarazione di una nuova nella stessa variabile
+dimensioni = (300, 100)
+for dim in dimensioni:
+    print(dim)
