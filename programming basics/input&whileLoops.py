@@ -124,3 +124,4 @@ while inserimentoAttivo:
                       key + "] del dizionario: \n")
         dizionario[key.strip()] = value.strip()
 print(dizionario)
+g
