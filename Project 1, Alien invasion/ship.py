@@ -25,7 +25,6 @@ class Ship():
 
         self.rect.bottom= self.screen_rect.bottom
 
-
     def update(self):
         if self.moving_right and self.rect.right < self.screen_rect.right:
             self.center += self.ai_settings.ship_speed_factor
