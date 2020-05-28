@@ -23,3 +23,16 @@ class Alien (Sprite):
         self.screen.blit(self.image,self.rect)
      #   pygame.display.update()
 
+    def check_edge(self):
+        screen_rect= self.screen.get_rect()
+        if self.rect.right >= screen_rect.right:
+            return True
+        elif self.rect.left <= 0:
+            return True
+        else:
+            return False
+
+    def update(self):
+        self.x += self.ai_settings.alien_speed_factor * self.ai_settings.fleet_direction
+        self.rect.x = self.x
+
