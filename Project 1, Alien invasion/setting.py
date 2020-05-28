@@ -7,8 +7,9 @@ class Settings():
         # velocità della nave
         self.ship_speed_factor =  1.5
         # valori per i proiettili
-        self.bullet_speed_factor = 1
+        self.bullet_speed_factor = 5
         self.bullet_width = 3
         self.bullet_height= 15
-        self.bullet_color = (0,0,0)
+        self.bullet_color = (128,0,0)
+        self.bullet_allowed = 3
 

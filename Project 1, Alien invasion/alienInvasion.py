@@ -18,14 +18,16 @@ def run_game():
     ship = Ship(screen, ai_settings)
 
     # gruppo dove immagazzinare i proiettili
-    bullets= Group()
+    bullets = Group()
 
 
     #inzia il loop principale per il gioco
     while True:
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
-        bullets.update()
+        gf.update_bullets(bullets)
+        print(len(bullets))
         gf.update_screen(ai_settings, screen, ship, bullets)
+
 
 run_game()

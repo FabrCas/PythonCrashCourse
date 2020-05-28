@@ -2,6 +2,13 @@ import sys
 import pygame
 from bullet import Bullet
 
+
+def fire_bullets(ai_settings,screen, ship, bullets):
+    if len(bullets) < ai_settings.bullet_allowed:  #
+        print("sparo")
+        new_bullet = Bullet(ai_settings, screen, ship)
+        bullets.add(new_bullet)
+
 def check_keydown_events(event,ai_settings, screen, ship, bullets):
     if event.key == pygame.K_RIGHT:
         # muovi la nave a destra
@@ -10,11 +17,8 @@ def check_keydown_events(event,ai_settings, screen, ship, bullets):
         # muovi la nave a sinistra
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:
-        print("sparo")
-        new_bullet = Bullet(ai_settings, screen, ship)
-        bullets.add(new_bullet)
-        print(new_bullet)
-        print(bullets)
+        fire_bullets(ai_settings,screen,ship,bullets)
+
 
 def check_keyup_events(event,ship):
     if event.key == pygame.K_RIGHT:
@@ -35,12 +39,18 @@ def check_events(ai_settings, screen, ship, bullets):
             check_keyup_events(event,ship)
 
 
+def update_bullets(bullets):
+    bullets.update()
+    # cancellare i proiettili fuori dallo schermo
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
+
 
 def update_screen(ai_settings, screen,ship, bullets):
 
     #disegna tutti i proiettili dietro la nave e gli aleni
     for bullet in bullets.sprites():
-        print(bullet)
         bullet.draw_bullet()
 
     screen.fill(ai_settings.bg_color)     #  per colorare lo sfondo
