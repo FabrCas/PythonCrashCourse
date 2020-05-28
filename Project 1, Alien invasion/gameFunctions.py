@@ -51,13 +51,14 @@ def update_bullets(bullets):
 
 
 def update_screen(ai_settings, screen,ship, alien,bullets):
+    screen.fill(ai_settings.bg_color)  # per colorare lo sfondo
 
     #disegna tutti i proiettili dietro la nave e gli aleni
     for bullet in bullets.sprites():
         bullet.draw_bullet()
-
-    screen.fill(ai_settings.bg_color)     #  per colorare lo sfondo
-    ship.draw_me()
     alien.draw_me()
+    ship.draw_me()
+
+
     # rendi lo schermo con gli oggetti più recenti visibile, aggiorna lo schermo
     pygame.display.update()

@@ -21,4 +21,5 @@ class Alien (Sprite):
 
     def draw_me(self):
         self.screen.blit(self.image,self.rect)
+     #   pygame.display.update()
 
