@@ -1,8 +1,12 @@
 import sys
 import pygame
+from time import sleep
 
 from alien import Alien
 from bullet import Bullet
+
+
+
 
 #start-------------------------aliens---------------------------------------
 
@@ -18,10 +22,43 @@ def change_fleet_direction(ai_settings,aliens):
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *= -1
 
-def update_aliens(ai_settings,aliens):
+def ship_hit(ai_settings, stats, screen,aliens, ship, bullets):
+    if stats.ships_left > 0:
+        stats.ships_left -= 1
+        # distruggi oggetti
+        aliens.empty()
+        bullets.empty()
+        # ricrea
+        create_fleet(ai_settings,screen,aliens,ship)
+        ship.center_ship()
+
+        #pausa mezzo secondo
+        sleep(0.5)
+    else:
+        stats.game_active= False
+
+def check_aliens_bottom(ai_settings, stats, screen, ship, aliens,bullets):
+    screen_rect= screen.get_rect()
+    for alien in aliens.sprites():
+        if alien.rect.bottom >= screen_rect.bottom:
+            ship_hit(ai_settings,stats,screen, aliens, ship, bullets)
+            break
+
+def update_aliens(ai_settings, stats, screen,aliens, ship,bullets):
     #controllo se la flotta ha raggiunto il limite dello schermo
     check_fleet_edges(ai_settings,aliens)
     aliens.update()
+    #controllo se qualche alieno colpisce la navicella
+    if pygame.sprite.spritecollideany(ship, aliens):
+        ship_hit(ai_settings,stats,screen,aliens,ship,bullets)
+        print("Navetta colpita!!!")
+    check_aliens_bottom(ai_settings,stats,screen,ship,aliens,bullets)
+
+    if ai_settings.aliens_alive != len(aliens):
+        ai_settings.aliens_alive = len(aliens)
+        print("alieni rimasti:" + str(len(aliens)))
+
+
 
 def get_number_rows(ai_settings, ship_height, alien_height):
     available_space_y= ai_settings.screen_height - ship_height - (alien_height*3)
@@ -93,14 +130,22 @@ def check_events(ai_settings, screen, ship, bullets):
         elif event.type == pygame.KEYUP:
             check_keyup_events(event,ship)
 
+def check_bullets_collisions(ai_settings, screen, ship, aliens,bullets):
+    # controllo se qualche proiettile ha colpito un alieno
+    # in caso positivo, elimino entrambi gli oggetti
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    if len(aliens)==0:
+        #distruggiamo tutti i proiettili rimasti e creiamo una nuova flotta
+        bullets.empty()
+        create_fleet(ai_settings,screen,aliens,ship)
 
-def update_bullets(bullets):
+def update_bullets(ai_settings,screen, ship,bullets, aliens):
     bullets.update()
     # cancellare i proiettili fuori dallo schermo
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
-    print(len(bullets))
+    check_bullets_collisions(ai_settings,screen,ship,aliens,bullets)
 
 #end-------------------------shooting-------------------------------------
 

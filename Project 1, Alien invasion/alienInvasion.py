@@ -1,11 +1,13 @@
 # moduli pyGame
 from pygame.sprite import Group
 import pygame
+import sys
 
 # moduli progetto
 from ship import Ship
 import gameFunctions as gf
 from setting import Settings
+from game_stats import Game_stats
 
 def run_game():
     #inizilizziamo il gioco e creiamo gli oggetti a schermo
@@ -15,6 +17,8 @@ def run_game():
     screen = pygame.display.set_mode((ai_settings.screen_width,ai_settings.screen_height))
     pygame.display.set_caption("Alien invasion")
 
+    #crazione istanza delle statistiche di gioco
+    stats= Game_stats(ai_settings)
 
     # creazione navetta
     ship = Ship(screen, ai_settings)
@@ -33,14 +37,19 @@ def run_game():
     while True:
         # rileva eventi di input
         gf.check_events(ai_settings, screen, ship, bullets)
-        # aggiorna posizione nave
-        ship.update()
-        # aggiorna posizione alieni
-        gf.update_aliens(ai_settings, aliens)
-        # aggiorna posizione proiettili
-        gf.update_bullets(bullets)
+
+        if stats.game_active:
+            # aggiorna posizione nave
+            ship.update()
+            # aggiorna posizione alieni
+            gf.update_aliens(ai_settings, stats, screen, aliens, ship,bullets)
+            # aggiorna posizione proiettili
+            gf.update_bullets(ai_settings,screen,ship,bullets,aliens)
+
+        else:
+            sys.exit()
+
         # aggiorna oggetti a schermo
         gf.update_screen(ai_settings, screen, ship,aliens, bullets)
-
 
 run_game()

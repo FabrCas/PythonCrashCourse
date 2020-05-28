@@ -38,4 +38,8 @@ class Ship():
             self.screen.blit(self.image, self.rect)
            # pygame.display.update()
 
+    #posiziona la nave al centro (punto di partenza)
+    def center_ship(self):
+        self.center = self.screen_rect.centerx
+
 
