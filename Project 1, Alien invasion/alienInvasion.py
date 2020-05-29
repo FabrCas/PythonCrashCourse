@@ -44,7 +44,7 @@ def run_game():
     #inzia il loop principale per il gioco
     while True:
         # rileva eventi di input
-        gf.check_events(ai_settings, screen,stats, play_button, ship, bullets, aliens)
+        gf.check_events(ai_settings, screen,stats, play_button, ship, bullets, aliens,scoreboard)
 
         if stats.game_active:
             # aggiorna posizione nave

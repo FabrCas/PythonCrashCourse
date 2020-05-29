@@ -2,9 +2,9 @@ class Settings():
     def __init__(self):
         # setteggi schermo
         self.screen_width= 1200
-        self.screen_height= 800
+        self.screen_height= 900
         self.bg_color = (230,230,230)
-        self.ship_limit = 2
+        self.ship_limit = 3
 
         # valori per i proiettili
         self.bullet_width = 3
