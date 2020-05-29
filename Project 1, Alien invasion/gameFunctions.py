@@ -36,6 +36,7 @@ def ship_hit(ai_settings, stats, screen,aliens, ship, bullets):
         sleep(0.5)
     else:
         stats.game_active= False
+        pygame.mouse.set_visible(True)
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens,bullets):
     screen_rect= screen.get_rect()
@@ -92,7 +93,7 @@ def create_fleet(ai_settings,screen,aliens, ship):
 
 #end-------------------------aliens---------------------------------------
 
-#start-------------------------shooting-------------------------------------
+#start-------------------------shooting and button------------------------
 def fire_bullets(ai_settings,screen, ship, bullets):
     if len(bullets) < ai_settings.bullet_allowed:  #
         print("sparo")
@@ -120,7 +121,27 @@ def check_keyup_events(event,ship):
         # muovi la nave a sinistra
         ship.moving_left = False
 
-def check_events(ai_settings, screen, ship, bullets):
+def check_play_button(stats, play_button, x_mouse, y_mouse, ai_settings, screen, ship,aliens, bullets):
+    button_clicked = play_button.rect.collidepoint(x_mouse, y_mouse)
+    if button_clicked and  not stats.game_active:
+        # reset le proprieta' del gioco
+        ai_settings.initillize_dynamic_settings()
+
+        # nascondere il cursore del mouse quando si avvio il gioco
+        pygame.mouse.set_visible(False)
+
+        # distruzione oggetti a schermo non necessari e inizializzazione gioco
+        stats.reset_stats()
+        stats.game_active = True
+        aliens.empty()
+        bullets.empty()
+
+        # creazione
+        create_fleet(ai_settings,screen,aliens,ship)
+        ship.center_ship()
+
+
+def check_events(ai_settings, screen, stats, play_button, ship, bullets, aliens):
     # attendi un evento di input
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # pygame.QUIT è un tipo di evento
@@ -129,6 +150,9 @@ def check_events(ai_settings, screen, ship, bullets):
             check_keydown_events(event,ai_settings, screen, ship, bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event,ship)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_play_button(stats,play_button, mouse_x,mouse_y, ai_settings, screen, ship, aliens, bullets)
 
 def check_bullets_collisions(ai_settings, screen, ship, aliens,bullets):
     # controllo se qualche proiettile ha colpito un alieno
@@ -138,6 +162,7 @@ def check_bullets_collisions(ai_settings, screen, ship, aliens,bullets):
         #distruggiamo tutti i proiettili rimasti e creiamo una nuova flotta
         bullets.empty()
         create_fleet(ai_settings,screen,aliens,ship)
+        ai_settings.increase_speed()
 
 def update_bullets(ai_settings,screen, ship,bullets, aliens):
     bullets.update()
@@ -147,9 +172,9 @@ def update_bullets(ai_settings,screen, ship,bullets, aliens):
             bullets.remove(bullet)
     check_bullets_collisions(ai_settings,screen,ship,aliens,bullets)
 
-#end-------------------------shooting-------------------------------------
+#end-------------------------shooting and button---------------------------
 
-def update_screen(ai_settings, screen,ship, aliens ,bullets):
+def update_screen(ai_settings, screen,stats, ship, aliens ,bullets, play_button):
 
     screen.fill(ai_settings.bg_color)  # per colorare lo sfondo
     #disegna tutti i proiettili dietro la nave e gli aleni
@@ -158,5 +183,10 @@ def update_screen(ai_settings, screen,ship, aliens ,bullets):
     #disegna gli alieni, si e' usato un modo diverso per fare la stessa cosa fatta per i proiettili nelle righe sopra
     aliens.draw(screen)
     ship.draw_me()
+
+    #creazione bottone se il gioco non è stato avviato
+    if not stats.game_active:
+        play_button.draw_button()
+
     # rendi lo schermo con gli oggetti più recenti visibile, aggiorna lo schermo
     pygame.display.update()

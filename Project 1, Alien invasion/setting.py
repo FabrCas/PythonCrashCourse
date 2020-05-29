@@ -4,20 +4,35 @@ class Settings():
         self.screen_width= 1200
         self.screen_height= 800
         self.bg_color = (230,230,230)
-        # velocità della nave
-        self.ship_speed_factor =  1.5
         self.ship_limit = 2
         # valori per i proiettili
-        self.bullet_speed_factor = 5
         self.bullet_width = 3
         self.bullet_height= 15
         self.bullet_color = (128,0,0)
         self.bullet_allowed = 3
         # settaggi per gli alieni
+
+        self.fleet_drop_speed = 10
+        # speed up del gioco
+        self.speedup_scale = 1.1
+
+        # variabile utilizzata per indicare che al momento non è stato ucciso nessun alieno
+        self.aliens_alive = -1
+        self.initillize_dynamic_settings()
+
+
+
+    def initillize_dynamic_settings(self):
+        # velocità della nave
+        self.ship_speed_factor = 1.5
+        self.bullet_speed_factor = 5
         self.alien_speed_factor = 1
         # 1 -> destra, -1 -> sinistra
         self.fleet_direction = 1
-        self.fleet_drop_speed= 100
-        # variabile utilizzata per indicare che al momento non è stato ucciso nessun alieno
-        self.aliens_alive = -1
+
+    def increase_speed(self):
+        self.ship_speed_factor   *= self.speedup_scale
+        self.bullet_speed_factor *= self.speedup_scale
+        self.alien_speed_factor  *= self.speedup_scale
+
 
