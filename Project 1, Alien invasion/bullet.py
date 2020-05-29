@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
-class Bullet(Sprite):
+class Bullet(Sprite):  # sottoclasse di Sprite, serve per poter creare un gruppo di proiettili
     def __init__(self, ai_settings, screen, ship):
         super().__init__()
         self.screen= screen

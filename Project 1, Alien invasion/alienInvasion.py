@@ -23,7 +23,7 @@ def run_game():
     stats= Game_stats(ai_settings)
 
     # crazione bottone per avvio del gioco
-    play_button= Button(ai_settings,screen,"Play")
+    play_button= Button(ai_settings,screen,"Touch here or type 'p'")
 
     # creazione scoreboard
     scoreboard= Scoreboard(ai_settings,screen, stats)

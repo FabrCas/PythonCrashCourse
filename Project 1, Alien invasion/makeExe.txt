@@ -1,0 +1,6 @@
+Steps to create the exe file of the project:
+1)install pyInstaller with pip, command line: pip install pyinstaller
+2)create the build with the command line: pyInstaller mainFile.py
+3)you can add the parameters "--onefile" or  "--noconsole" at the previous command
+4)move your dependency files, like images into dist folder
+5)that's it! 

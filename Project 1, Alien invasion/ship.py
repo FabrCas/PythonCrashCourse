@@ -8,7 +8,9 @@ class Ship():
         self.ai_settings= ai_settings
 
         # carica l'immagine della navetta e ottieni la sua rect
-        self.image= pygame.image.load("./static/images/ship.bmp")
+        self.image= pygame.image.load("static/images/ship.bmp")
+        #self.image= pygame.transform.scale(self.image, (20, 40))
+
         self.rect = self.image.get_rect()
         self.screen_rect= screen.get_rect()
 

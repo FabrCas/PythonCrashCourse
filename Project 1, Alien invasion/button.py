@@ -8,10 +8,10 @@ class Button():
         self.screen_rect = screen.get_rect()
 
         # proprieta' del bottone
-        self.width, self.height = 200, 100
-        self.button_color= (0,255,0)
-        self.text_color = (255,255,255)
-        self.font = pygame.font.SysFont("gigi", 48, False, False)
+        self.width, self.height = 360, 100
+        self.button_color= (0,0,0)
+        self.text_color = (0,255,0)
+        self.font = pygame.font.SysFont("gigi", 38, False, False)
 
         # costruzione della rect per il bottone
         self.rect = pygame.Rect(0,0,self.width,self.height)

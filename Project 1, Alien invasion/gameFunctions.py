@@ -64,8 +64,6 @@ def update_aliens(ai_settings, stats, screen,aliens, ship,bullets):
 def get_number_rows(ai_settings, ship_height, alien_height):
     available_space_y= ai_settings.screen_height - ship_height - (alien_height*6) + 50
     number_rows= int(available_space_y/(alien_height*2))
-    print(alien_height)
-    print(number_rows)
     return  number_rows
 
 def get_number_of_alines(ai_settings, alien_width):
