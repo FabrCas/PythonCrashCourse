@@ -9,6 +9,7 @@ import gameFunctions as gf
 from setting import Settings
 from game_stats import Game_stats
 from button import Button
+from scoreboard import  Scoreboard
 
 def run_game():
     #inizilizziamo il gioco e creiamo gli oggetti a schermo
@@ -23,6 +24,9 @@ def run_game():
 
     # crazione bottone per avvio del gioco
     play_button= Button(ai_settings,screen,"Play")
+
+    # creazione scoreboard
+    scoreboard= Scoreboard(ai_settings,screen, stats)
 
     # creazione navetta
     ship = Ship(screen, ai_settings)
@@ -48,12 +52,12 @@ def run_game():
             # aggiorna posizione alieni
             gf.update_aliens(ai_settings, stats, screen, aliens, ship,bullets)
             # aggiorna posizione proiettili
-            gf.update_bullets(ai_settings,screen,ship,bullets,aliens)
+            gf.update_bullets(ai_settings,screen,ship,bullets,aliens, stats, scoreboard)
 
      #  else:
      #      sys.exit()
 
         # aggiorna oggetti a schermo
-        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button)
+        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button, scoreboard)
 
 run_game()

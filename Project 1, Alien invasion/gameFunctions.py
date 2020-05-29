@@ -154,27 +154,39 @@ def check_events(ai_settings, screen, stats, play_button, ship, bullets, aliens)
             mouse_x, mouse_y = pygame.mouse.get_pos()
             check_play_button(stats,play_button, mouse_x,mouse_y, ai_settings, screen, ship, aliens, bullets)
 
-def check_bullets_collisions(ai_settings, screen, ship, aliens,bullets):
+
+def check_high_score(stats, scoreboard):
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        scoreboard.prep_high_score()
+
+def check_bullets_collisions(ai_settings, screen, ship, aliens,bullets, stats, scoreboard):
     # controllo se qualche proiettile ha colpito un alieno
     # in caso positivo, elimino entrambi gli oggetti
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    if collisions:
+        for aliens in collisions.values():
+            stats.score += ai_settings.alien_points * len (aliens)
+            scoreboard.prep_score()
+            check_high_score(stats, scoreboard)
+
     if len(aliens)==0:
         #distruggiamo tutti i proiettili rimasti e creiamo una nuova flotta
         bullets.empty()
         create_fleet(ai_settings,screen,aliens,ship)
         ai_settings.increase_speed()
 
-def update_bullets(ai_settings,screen, ship,bullets, aliens):
+def update_bullets(ai_settings,screen, ship,bullets, aliens, stats, scoreboard):
     bullets.update()
     # cancellare i proiettili fuori dallo schermo
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
-    check_bullets_collisions(ai_settings,screen,ship,aliens,bullets)
+    check_bullets_collisions(ai_settings,screen,ship,aliens,bullets, stats,scoreboard)
 
 #end-------------------------shooting and button---------------------------
 
-def update_screen(ai_settings, screen,stats, ship, aliens ,bullets, play_button):
+def update_screen(ai_settings, screen,stats, ship, aliens ,bullets, play_button, scoreboard):
 
     screen.fill(ai_settings.bg_color)  # per colorare lo sfondo
     #disegna tutti i proiettili dietro la nave e gli aleni
@@ -183,6 +195,7 @@ def update_screen(ai_settings, screen,stats, ship, aliens ,bullets, play_button)
     #disegna gli alieni, si e' usato un modo diverso per fare la stessa cosa fatta per i proiettili nelle righe sopra
     aliens.draw(screen)
     ship.draw_me()
+    scoreboard.draw_score()
 
     #creazione bottone se il gioco non è stato avviato
     if not stats.game_active:
