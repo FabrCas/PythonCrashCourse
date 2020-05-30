@@ -50,7 +50,7 @@ def run_game():
             # aggiorna posizione nave
             ship.update()
             # aggiorna posizione alieni
-            gf.update_aliens(ai_settings, stats, screen, aliens, ship,bullets)
+            gf.update_aliens(ai_settings, stats, screen, aliens, ship,bullets, scoreboard)
             # aggiorna posizione proiettili
             gf.update_bullets(ai_settings,screen,ship,bullets,aliens, stats, scoreboard)
 
