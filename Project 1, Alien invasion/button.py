@@ -11,7 +11,9 @@ class Button():
         self.width, self.height = 360, 100
         self.button_color= (0,0,0)
         self.text_color = (0,255,0)
-        self.font = pygame.font.SysFont("gigi", 38, False, False)
+       # self.font = pygame.font.SysFont("gigi", 38, False, False)  #Possibile errore in mancanza di font
+
+        self.font = pygame.font.SysFont("arial", 38, False, False)
 
         # costruzione della rect per il bottone
         self.rect = pygame.Rect(0,0,self.width,self.height)
@@ -36,3 +38,6 @@ def get_fonts():
     print("font disponibili: \n")
     for font in pygame.font.get_fonts():
         print(font)
+
+def get_default_font():
+    print(pygame.font.get_default_font())

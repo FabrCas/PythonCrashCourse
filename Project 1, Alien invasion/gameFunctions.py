@@ -24,12 +24,13 @@ def change_fleet_direction(ai_settings,aliens):
 
 def ship_hit(ai_settings, stats, screen,aliens, ship, bullets, scoreboard):
     ship.is_alive = False
-    ship_hit_sound= mixer.Sound("./static/sounds/shipHit.mp3")
+    ship_hit_sound= mixer.Sound("static/sounds/shipHit.wav")
     ship_hit_sound.set_volume(1.0)
     ship_hit_sound.play()
+    check_high_score(stats, scoreboard)
     pygame.event.clear()
     if stats.ships_left > 0:
-        sleep(3.0)
+        sleep(1.0)
         ship.reset_flag()
         stats.ships_left -= 1
         # distruggi oggetti
@@ -38,9 +39,7 @@ def ship_hit(ai_settings, stats, screen,aliens, ship, bullets, scoreboard):
         # ricrea
         ship.center_ship()
         scoreboard.prep_ships() # aggiornare il numero di navi rimaste
-        #pausa mezzo secondo
-        check_high_score(stats, scoreboard)
-        #pygame.display.update()
+        pygame.display.update()
         create_fleet(ai_settings, screen, aliens, ship)
     else:
         stats.game_active= False
@@ -198,6 +197,8 @@ def check_events(ai_settings, screen, stats, play_button, ship, bullets, aliens,
         elif event.type == pygame.KEYUP:
             check_keyup_events(event,ship)
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            if not ship.is_alive:
+                ship.reset_flag()
             mouse_x, mouse_y = pygame.mouse.get_pos()
             check_play_button(stats,play_button, mouse_x,mouse_y, ai_settings, screen, ship, aliens, bullets, scoreboard)
 
@@ -212,7 +213,7 @@ def check_bullets_collisions(ai_settings, screen, ship, aliens,bullets, stats, s
     # in caso positivo, elimino entrambi gli oggetti (i due parametri passati di valore True)
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
     if collisions:
-        alien_hit_sound = mixer.Sound("./static/sounds/alienHit.mp3")
+        alien_hit_sound = mixer.Sound("static/sounds/alienHit.wav")
         alien_hit_sound.set_volume(0.5)
         alien_hit_sound.play()
         for aliens in collisions.values():

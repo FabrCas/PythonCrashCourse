@@ -14,7 +14,8 @@ class Ship(Sprite):
 
         # carica l'immagine della navetta e ottieni la sua rect
         self.image= pygame.image.load("static/images/spaceship.png")
-        self.image= pygame.transform.scale(self.image, (70, 70))
+        self.image= pygame.transform.scale(self.image, (70, 70)) # for space ship
+        # self.image = pygame.transform.scale(self.image, (90, 110))
 
         self.rect = self.image.get_rect()
         self.screen_rect= screen.get_rect()
