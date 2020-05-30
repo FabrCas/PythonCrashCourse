@@ -9,7 +9,8 @@ class Alien (Sprite):
         self.ai_settings = ai_settings
 
         #caricamento dell'immagine
-        self.image = pygame.image.load("./static/images/alien.bmp")
+        self.image = pygame.image.load("./static/images/alien2.png")
+        self.image = pygame.transform.scale(self.image, (80, 80))
         self.rect = self.image.get_rect()
 
         #l'alieno "spawna" vicino l'angolo in alto a sinistra

@@ -40,6 +40,7 @@ def ship_hit(ai_settings, stats, screen,aliens, ship, bullets, scoreboard):
         sleep(3.0)
     else:
         stats.game_active= False
+        ship.reset_flag()
         pygame.mouse.set_visible(True)
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens,bullets, scoreboard):
@@ -67,7 +68,7 @@ def update_aliens(ai_settings, stats, screen,aliens, ship,bullets, scoreboard):
 
 
 def get_number_rows(ai_settings, ship_height, alien_height):
-    available_space_y= ai_settings.screen_height - ship_height - (alien_height*6) + 50
+    available_space_y= ai_settings.screen_height - ship_height - (alien_height*4) + 50
     number_rows= int(available_space_y/(alien_height*2))
     return  number_rows
 
@@ -89,6 +90,8 @@ def create_fleet(ai_settings,screen,aliens, ship):
     alien = Alien(screen,ai_settings)  # istanza della classe Alieno utile per avere info sulla larghezza della rect
     number_aliens_x = get_number_of_alines(ai_settings, alien.rect.width)
     number_rows= get_number_rows(ai_settings,ship.rect.height, alien.rect.height)
+    ship.center_ship()
+    pygame.display.update()
     #creiamo gli alieni
     for row_number in range(number_rows):
         for alien_number in range(number_aliens_x):
@@ -226,7 +229,7 @@ def update_bullets(ai_settings,screen, ship,bullets, aliens, stats, scoreboard):
 
 def update_screen(ai_settings, screen,stats, ship, aliens ,bullets, play_button, scoreboard):
 
-    screen.fill(ai_settings.bg_color)  # per colorare lo sfondo
+    screen.fill( ai_settings.bg_color)  # per colorare lo sfondo
     #disegna tutti i proiettili dietro la nave e gli aleni
     for bullet in bullets.sprites():
         bullet.draw_bullet()

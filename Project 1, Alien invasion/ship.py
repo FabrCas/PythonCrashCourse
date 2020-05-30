@@ -11,8 +11,8 @@ class Ship(Sprite):
 
 
         # carica l'immagine della navetta e ottieni la sua rect
-        self.image= pygame.image.load("static/images/ship.bmp")
-        #self.image= pygame.transform.scale(self.image, (20, 40))
+        self.image= pygame.image.load("static/images/spaceship.png")
+        self.image= pygame.transform.scale(self.image, (70, 70))
 
         self.rect = self.image.get_rect()
         self.screen_rect= screen.get_rect()
@@ -61,4 +61,9 @@ class Ship(Sprite):
         self.centerx = self.screen_rect.centerx
         self.bottom = self.screen_rect.bottom
 
-
+    def reset_flag(self):
+        self.moving_back = False
+        self.moving_left = False
+        self.moving_forward = False
+        self.moving_right = False
+        self.is_rotated180 = False
