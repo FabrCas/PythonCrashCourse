@@ -8,7 +8,6 @@ from bullet import Bullet
 
 
 
-
 #start-------------------------aliens---------------------------------------
 
 def check_fleet_edges(ai_settings, aliens):
@@ -24,26 +23,29 @@ def change_fleet_direction(ai_settings,aliens):
     ai_settings.fleet_direction *= -1
 
 def ship_hit(ai_settings, stats, screen,aliens, ship, bullets, scoreboard):
+    ship.is_alive = False
     ship_hit_sound= mixer.Sound("./static/sounds/shipHit.mp3")
     ship_hit_sound.set_volume(1.0)
     ship_hit_sound.play()
+    pygame.event.clear()
     if stats.ships_left > 0:
+        sleep(3.0)
+        ship.reset_flag()
         stats.ships_left -= 1
         # distruggi oggetti
         aliens.empty()
         bullets.empty()
         # ricrea
-        create_fleet(ai_settings,screen,aliens,ship)
         ship.center_ship()
         scoreboard.prep_ships() # aggiornare il numero di navi rimaste
         #pausa mezzo secondo
         check_high_score(stats, scoreboard)
-        pygame.display.update()
-        sleep(3.0)
+        #pygame.display.update()
+        create_fleet(ai_settings, screen, aliens, ship)
     else:
         stats.game_active= False
-        ship.reset_flag()
         pygame.mouse.set_visible(True)
+    not_press = False
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens,bullets, scoreboard):
     screen_rect= screen.get_rect()
@@ -93,7 +95,8 @@ def create_fleet(ai_settings,screen,aliens, ship):
     number_aliens_x = get_number_of_alines(ai_settings, alien.rect.width)
     number_rows= get_number_rows(ai_settings,ship.rect.height, alien.rect.height)
     ship.center_ship()
-    pygame.display.update()
+
+   # pygame.display.update()
     #creiamo gli alieni
     for row_number in range(number_rows):
         for alien_number in range(number_aliens_x):
@@ -103,7 +106,7 @@ def create_fleet(ai_settings,screen,aliens, ship):
 
 #start-------------------------shooting and button------------------------
 def fire_bullets(ai_settings,screen, ship, bullets, stats):
-    if len(bullets) < ai_settings.bullet_allowed and stats.game_active:
+    if len(bullets) < ai_settings.bullet_allowed and ship.is_alive:
         new_bullet = Bullet(ai_settings, screen, ship)
         laser_sound = mixer.Sound("static/sounds/laser.wav")
         laser_sound.set_volume(0.1)
@@ -112,14 +115,14 @@ def fire_bullets(ai_settings,screen, ship, bullets, stats):
 
 
 def check_keydown_events(event,ai_settings, screen, ship, bullets, stats, aliens, scoreboard):
-    if stats.game_active:
+    if ship.is_alive:
         if event.key == pygame.K_RIGHT:
             # muovi la nave a destra
             ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             # muovi la nave a sinistra
             ship.moving_left = True
-        if event.key == pygame.K_UP:
+        elif event.key == pygame.K_UP:
             # ferma il movimento  della nave a destra
             ship.moving_forward = True
         elif event.key == pygame.K_DOWN:
@@ -127,6 +130,7 @@ def check_keydown_events(event,ai_settings, screen, ship, bullets, stats, aliens
             ship.moving_back = True
         elif event.key == pygame.K_SPACE:
             fire_bullets(ai_settings,screen,ship,bullets, stats)
+
 
     if event.key == pygame.K_q:    #uscita dal gioco premendo 'q'
         sys.exit()
@@ -137,6 +141,7 @@ def check_keydown_events(event,ai_settings, screen, ship, bullets, stats, aliens
 
 
 def check_keyup_events(event,ship):
+
     if event.key == pygame.K_RIGHT:
         # ferma il movimento  della nave a destra
         ship.moving_right = False
@@ -149,6 +154,8 @@ def check_keyup_events(event,ship):
     elif event.key == pygame.K_DOWN:
         # muovi la nave a sinistra
         ship.moving_back = False
+    elif event.key == pygame.K_RETURN:
+        ship.do_rotation180 = True
 
 
 def start_game(ai_settings, screen, stats, aliens,bullets, ship, scoreboard):
@@ -226,7 +233,7 @@ def update_bullets(ai_settings,screen, ship,bullets, aliens, stats, scoreboard):
     bullets.update()
     # cancellare i proiettili fuori dallo schermo
     for bullet in bullets.copy():
-        if bullet.rect.bottom <= 0:
+        if bullet.rect.bottom <= 0 or bullet.rect.top >= ai_settings.screen_height or not stats.game_active:
             bullets.remove(bullet)
     check_bullets_collisions(ai_settings,screen,ship,aliens,bullets, stats,scoreboard)
 

@@ -5,11 +5,14 @@ class Bullet(Sprite):  # sottoclasse di Sprite, serve per poter creare un gruppo
     def __init__(self, ai_settings, screen, ship):
         super().__init__()
         self.screen= screen
-
+        self.ship = ship
         #creiamo un proiettile a (0,0) e dopo gli impostiamo la corretta posizione
         self.rect = pygame.Rect(0, 0, ai_settings.bullet_width, ai_settings.bullet_height)
         self.rect.centerx = ship.rect.centerx
-        self.rect.top= ship.rect.top
+        if not ship.is_flipped:
+            self.rect.top= ship.rect.top
+        else:
+            self.rect.top = ship.rect.bottom
 
         #salviamo il valore della posizione come un valore decimale
         self.y= float (self.rect.y)
@@ -19,8 +22,12 @@ class Bullet(Sprite):  # sottoclasse di Sprite, serve per poter creare un gruppo
 
     def update(self):
         # muovi i proiettili sullo schermo
-        self.y -= self.speed_factor
-        self.rect.y = self.y
+        if not self.ship.is_flipped:
+            self.y -= self.speed_factor
+            self.rect.y = self.y
+        else:
+            self.y += self.speed_factor
+            self.rect.y = self.y
 
     def draw_bullet(self):
         pygame.draw.rect(self.screen, self.color, self.rect)
