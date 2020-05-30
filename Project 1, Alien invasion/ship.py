@@ -43,10 +43,8 @@ class Ship(Sprite):
         if self.moving_left and self.rect.left > 0:
             self.centerx -= self.ai_settings.ship_speed_factor
         if self.moving_forward  and self.rect.top > 150:
-            print("muovo su")
             self.bottom -= self.ai_settings.ship_speed_factor
         if self.moving_back and self.rect.bottom < self.screen_rect.height:
-            print("muovo giù")
             self.bottom += self.ai_settings.ship_speed_factor
 
         self.rect.centerx = self.centerx #solo la parte intera di self.center verrà assegnata alla rect
