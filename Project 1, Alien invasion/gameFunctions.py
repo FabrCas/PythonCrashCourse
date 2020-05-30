@@ -1,5 +1,6 @@
 import sys
 import pygame
+from pygame import  mixer
 from time import sleep
 
 from alien import Alien
@@ -23,6 +24,9 @@ def change_fleet_direction(ai_settings,aliens):
     ai_settings.fleet_direction *= -1
 
 def ship_hit(ai_settings, stats, screen,aliens, ship, bullets, scoreboard):
+    ship_hit_sound= mixer.Sound("./static/sounds/shipHit.mp3")
+    ship_hit_sound.set_volume(1.0)
+    ship_hit_sound.play()
     if stats.ships_left > 0:
         stats.ships_left -= 1
         # distruggi oggetti
@@ -33,7 +37,7 @@ def ship_hit(ai_settings, stats, screen,aliens, ship, bullets, scoreboard):
         ship.center_ship()
         scoreboard.prep_ships() # aggiornare il numero di navi rimaste
         #pausa mezzo secondo
-        sleep(0.5)
+        sleep(3.0)
     else:
         stats.game_active= False
         pygame.mouse.set_visible(True)
@@ -94,9 +98,13 @@ def create_fleet(ai_settings,screen,aliens, ship):
 
 #start-------------------------shooting and button------------------------
 def fire_bullets(ai_settings,screen, ship, bullets):
-    if len(bullets) < ai_settings.bullet_allowed:  #
+    if len(bullets) < ai_settings.bullet_allowed:
         new_bullet = Bullet(ai_settings, screen, ship)
+        laser_sound = mixer.Sound("static/sounds/laser.wav")
+        laser_sound.set_volume(0.1)
+        laser_sound.play()
         bullets.add(new_bullet)
+
 
 def check_keydown_events(event,ai_settings, screen, ship, bullets, stats, aliens, scoreboard):
     if event.key == pygame.K_RIGHT:
@@ -105,6 +113,12 @@ def check_keydown_events(event,ai_settings, screen, ship, bullets, stats, aliens
     elif event.key == pygame.K_LEFT:
         # muovi la nave a sinistra
         ship.moving_left = True
+    if event.key == pygame.K_UP:
+        # ferma il movimento  della nave a destra
+        ship.moving_forward = True
+    elif event.key == pygame.K_DOWN:
+        # muovi la nave a sinistra
+        ship.moving_back = True
     elif event.key == pygame.K_SPACE:
         fire_bullets(ai_settings,screen,ship,bullets)
     elif event.key == pygame.K_q:    #uscita dal gioco premendo 'q'
@@ -121,6 +135,12 @@ def check_keyup_events(event,ship):
     elif event.key == pygame.K_LEFT:
         # muovi la nave a sinistra
         ship.moving_left = False
+    if event.key == pygame.K_UP:
+        # ferma il movimento  della nave a destra
+        ship.moving_forward = False
+    elif event.key == pygame.K_DOWN:
+        # muovi la nave a sinistra
+        ship.moving_back = False
 
 def start_game(ai_settings, screen, stats, aliens,bullets, ship, scoreboard):
     # reset le proprieta' del gioco
@@ -176,11 +196,13 @@ def check_bullets_collisions(ai_settings, screen, ship, aliens,bullets, stats, s
     # in caso positivo, elimino entrambi gli oggetti (i due parametri passati di valore True)
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
     if collisions:
+        alien_hit_sound = mixer.Sound("./static/sounds/alienHit.mp3")
+        alien_hit_sound.set_volume(0.5)
+        alien_hit_sound.play()
         for aliens in collisions.values():
             stats.score += ai_settings.alien_points * len (aliens)
             scoreboard.prep_score()
             check_high_score(stats, scoreboard)
-
     if len(aliens)==0:
         #distruggiamo tutti i proiettili rimasti e creiamo una nuova flotta
         bullets.empty()

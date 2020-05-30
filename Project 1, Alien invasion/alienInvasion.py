@@ -17,6 +17,8 @@ def run_game():
     #instanziamo un oggetto impostazioni
     ai_settings = Settings()
     screen = pygame.display.set_mode((ai_settings.screen_width,ai_settings.screen_height))
+    icona= pygame.image.load("./static/images/icona.png")
+    pygame.display.set_icon(icona)
     pygame.display.set_caption("Alien invasion")
 
     #crazione istanza delle statistiche di gioco
