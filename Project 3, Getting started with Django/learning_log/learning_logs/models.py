@@ -10,9 +10,9 @@ class Topic (models.Model): #sottoclasse di Model
     def __str__(self):
         return self.text
 
-class Entry(models.model):
+class Entry(models.Model):
     """ descrizione di un argomento (Topic), relazione many to one con essa """
-    topic= models.ForeignKey(Topic)  #id dei topics
+    topic= models.ForeignKey(Topic, on_delete=models.CASCADE)  #id dei topics
     text= models.TextField()
     date_added=models.DateTimeField(auto_now_add=True)
 
