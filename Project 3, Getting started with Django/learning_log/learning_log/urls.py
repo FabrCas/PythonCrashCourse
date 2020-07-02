@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include,url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'',include(learnig_logs.ulrs, namespace='learning_logs'))
+    #abbiamo incluso il modulo learning_logs.urls in modo da distingure gli URL del nostro applicativo dagli altri che
+    #possono esistere nel progetto, url è un alias della funzione re_path(...)
 ]
+
+

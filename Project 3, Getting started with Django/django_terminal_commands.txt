@@ -12,3 +12,5 @@
 -aggiornare il database con i nuovi modelli: python manage.py makemigrations (nome progetto)
  (crea un file ..._initial.py con le modifiche al db, le nuove relazioni o tabelle, per
 -crere il super-utente: python manage.py createsuperuser
+-la shell django: python manage.py shell
+
