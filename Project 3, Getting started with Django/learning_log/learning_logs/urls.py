@@ -10,5 +10,7 @@ urlpatterns = [
     url(r'^topics/$', views.topics, name="topics"), #url per la pagina con le liste di topics
     url(r'^topics/(?P<topic_id>\d+)/$', views.topic, name="topic"), #? indica l'inizio della query, \d+ indica di catturare ogni numero digitat
     # tra le slash, P<topic_id> serve a salvare il parametro in topic_id
-    url(r'^new_topic/$', views.new_topic, name="new_topic")
+    url(r'^new_topic/$', views.new_topic, name="new_topic"),
+    url(r'^new_entry/(?P<topic_id>\d+)/$', views.new_entry, name="new_entry"), #associazione ad un Topic per ogni Entry
+    url(r'^edit_entry/(?P<entry_id>\d+)/$', views.edit_entry, name="edit_entry"),
 ]

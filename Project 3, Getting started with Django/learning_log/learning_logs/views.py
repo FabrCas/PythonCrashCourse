@@ -3,8 +3,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse # per determinare l'URL da un certo pattern URL
 
 
-from .models import Topic
-from .form import TopicForm
+from .models import Topic, Entry
+from .form import TopicForm, EntryForm
 # Create your views here.
 
 def index(request):
@@ -24,7 +24,6 @@ def topic(request, topic_id):
     return  render(request, 'topic.html', context)
 
 def new_topic(request):
-    print("********************************************************+view new_topic ")
     if request.method !='POST':  #quindi get, creazione della pagina per la sola lettura -> get, invia le info -> post
         # dati non inviati, crea una form vuota
         form= TopicForm()
@@ -36,4 +35,33 @@ def new_topic(request):
             return HttpResponseRedirect(reverse("learning_logs:topics"))
     context= {'form': form}
     return render(request, 'new_topic.html', context)
+
+def new_entry(request,topic_id):
+    print(topic_id)
+    topic = Topic.objects.get(id=topic_id)
+    if request.method !='POST':
+        form= EntryForm()
+    else:
+        form = EntryForm(data=request.POST)
+        if form.is_valid():
+            new_entry= form.save(commit=False)  #prende la entry con i dati inseriti dalla form
+            new_entry.topic = topic   #gli assegno un topic
+            new_entry.save()
+            return HttpResponseRedirect(reverse("learning_logs:topic", args=[topic_id]))
+    context= {'topic': topic,'form': form}
+    return render(request, 'new_entry.html', context)
+
+def edit_entry(request, entry_id):
+    entry= Entry.objects.get(id=entry_id)
+    topic= entry.topic
+    if request.method != "POST":
+        form = EntryForm()
+    else:
+        form= EntryForm(instance= entry, data= request.POST) #request.POST serve per indicare a Django di creare un form sui sui dati inseriti
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("learning_logs:topic", args=[topic.id]))
+    context={'entry':entry,'topic':topic, 'form': form}
+    return render(request, 'edit_entry.html', context)
+
 
