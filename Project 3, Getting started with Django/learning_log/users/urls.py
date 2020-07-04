@@ -8,4 +8,5 @@ urlpatterns= [
     # siccome non abbiamo creato la nostra funzione vista, dobbiamo passargli un dictionary con le info per la posizione
     # del template
     url(r'^logout/$', views.logout_view, name='logout'),
+    url(r'^register/$', views.register, name= 'register')
 ]
