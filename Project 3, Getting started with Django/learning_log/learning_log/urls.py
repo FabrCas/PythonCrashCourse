@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'',include(('learning_logs.urls', 'learning_logs'), namespace='learning_logs')), #app_name='learning_logs', secondo parametro nella tupla
     #abbiamo incluso il modulo learning_logs.urls in modo da distingure gli URL del nostro applicativo dagli altri che
     #possono esistere nel progetto, url è un alias della funzione re_path(...)
+    url(r'^users/',include(('users.urls', 'users'), namespace='users')),
 ]
 
 
