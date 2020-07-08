@@ -9,7 +9,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {%  bootstrap_css %}
     {%  bootstrap_javascript %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     <title>Learning Log</title>
 </head
@@ -38,14 +37,21 @@
                 <li><a href="{% url 'users:register' %}">register</a></li>
                 <li><a href="{% url 'users:login' %}">log in</a></li>
             {% endif %}
-              </ul>
+            </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 <!-- end navigation bar -->
-{% block content  %}
+<div class="container">
 
-{% endblock content %}
+    <div class="page-header">
+        {% block header %}{% endblock header %}
+    </div>
+    <div>
+        {% block content  %}{% endblock content %}
+    </div>
+
+</div>
 
 </body>
 </html>

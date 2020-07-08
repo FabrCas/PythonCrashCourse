@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 {% extends "base.html" %}
+{% load bootstrap3 %}
 <head>
     <meta charset="UTF-8">
     <title>Topics</title>
 </head>
 <body>
+{% block header %}
+    <h1>Your topics page</h1>
+{% endblock header %}
 {% block content %}
-    <p>Topics</p>
     <ul>
         {% for topic in topics %}
-            <li>
+            <li><h3>
                 <a href="{% url 'learning_logs:topic' topic.id %}">{{topic}}</a>
-            </li>
+            </h3></li>
         {% empty %}  <!-- se vuoto: -->
             <li>
                 No topics have been added yet
             </li>
         {% endfor %}
     </ul>
-    <a href="{% url 'learning_logs:new_topic' %}">Add a new topic</a>
+    <br>
+    <h3><a href="{% url 'learning_logs:new_topic' %}">Add a new topic</a></h3>
 {% endblock content %}
 </body>
 </html>

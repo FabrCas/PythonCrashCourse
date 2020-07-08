@@ -1,5 +1,6 @@
 <!doctype html>
 {% extends "base.html" %}
+{% load bootstrap3 %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,12 +10,18 @@
     <title>New_topic</title>
 </head>
 <body>
+{% block header %}
+    <h2>Add a new Topic</h2>
+{% endblock header %}
 {% block content %}
-    <p>Add a new topic:</p>
-    <form action="{% url 'learning_logs:new_topic' %}" method="post">
-    {% csrf_token %} <!-- per prevenire utilizzo non autorizzato della form-->
-    {{ form.as_p }} <!-- il template engine construisce la form utilizzando elementi html paragrafo-->
-    <button name="submit">add Topic</button>
+    <form method="post" action="{% url 'learning_logs:new_topic' %}"  class="form">
+        {% csrf_token %} <!-- per prevenire utilizzo non autorizzato della form-->
+        {% bootstrap_form form %}
+        <!-- {{ form.as_p }} il template engine construisce la form utilizzando elementi html paragrafo-->
+
+        {% buttons %}
+            <button name="submit" class="btn btn-primary">add Topic</button>
+        {% endbuttons %}
     </form>
 {% endblock content %}
 </body>
