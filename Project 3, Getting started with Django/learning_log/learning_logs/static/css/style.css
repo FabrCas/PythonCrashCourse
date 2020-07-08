@@ -1,0 +1,20 @@
+.navbar-brand {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+body {
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+}
+.navbar-right {
+    float: right!important;
+    margin-right: -365px;
+}
+.container {
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}

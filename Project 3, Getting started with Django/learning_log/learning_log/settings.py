@@ -18,6 +18,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #My settings
 LOGIN_URL= '/users/login/'
 
+#Settings for django-bootstrap3
+BOOTSTRAP3= {
+    'include_jquery':True
+}
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -43,6 +48,9 @@ INSTALLED_APPS = [
     # la mia applicazione
     'learning_logs',
     'users',
+
+    # applicazione di terze parti
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
