@@ -30,9 +30,10 @@ BOOTSTRAP3= {
 SECRET_KEY = 'q36c(pydd7kia3h^j2l-5ol@#orhp8v4q0_oos8alob1ouub23'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True  # mettere false, default on work: True, dopo che il deploy dell app online diventa effettivo (permette di visualizzare un errore
+              #generico all'host che si collega
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 
 # Application definition
