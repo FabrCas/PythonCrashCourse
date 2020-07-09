@@ -35,6 +35,9 @@
             There are no entries for this topic yet
         </h4>
     {% endfor %}
+    <h3>
+<a href="{% url 'learning_logs:new_entry' topic.id %}">add new entry</a>
+</h3>
 {% endblock content %}
 </body>
 </html>
